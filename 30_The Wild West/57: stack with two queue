@@ -1,0 +1,37 @@
+class Stack {
+  constructor() {
+    this.queue1 = [];
+    this.queue2 = [];
+  }
+
+  push(value) {
+    this.queue1.push(value);
+    return this; // 스택 반환을 위해 this를 반환
+  }
+
+  pop() {
+    if (this.queue1.length === 0) return null; // 스택이 비어있는 경우 null 반환
+
+    // 큐1에서 모든 요소를 큐2로 이동하며 마지막 요소만 남기기
+    while (this.queue1.length > 1) {
+      this.queue2.push(this.queue1.shift());
+    }
+
+    // 마지막 요소를 반환하고 큐1과 큐2를 교환
+    const poppedValue = this.queue1.shift();
+    [this.queue1, this.queue2] = [this.queue2, this.queue1];
+
+    return poppedValue;
+  }
+}
+
+// 테스트
+var s = new Stack();
+console.log(s.push(10).push(20).push(30)); // Stack { queue1: [ 10, 20, 30 ], queue2: [] }
+console.log(s.pop()); // 30
+console.log(s.pop()); // 20
+console.log(s.pop()); // 10
+console.log(s.pop()); // null
+console.log(s.push(30).push(40).push(50)); // Stack { queue1: [ 30, 40, 50 ], queue2: [] }
+console.log(s.pop()); // 50
+console.log(s.push(60));
