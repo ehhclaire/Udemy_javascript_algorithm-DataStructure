@@ -1,0 +1,93 @@
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BinarySearchTree {
+  constructor() {
+    this.root = null;
+  }
+  
+  insert(value) {
+    if (typeof value === 'number' && !isNaN(value)) {
+      const newNode = new Node(value);
+      if (this.root === null) {
+        this.root = newNode;
+        return this;
+      } else {
+        let current = this.root;
+        while (true) {
+          if (value < current.value) {
+            if (current.left === null) {
+              current.left = newNode;
+              return this;
+            } else {
+              current = current.left;
+            }
+          } else if (value > current.value) {
+            if (current.right === null) {
+              current.right = newNode;
+              return this;
+            } else {
+              current = current.right;
+            }
+          } else {
+            return "duplicate!";
+          }
+        }
+      }
+    } else {
+      return "Please insert a number";
+    }
+  }
+  
+  findSecondLargest() {
+    if (!this.root || (!this.root.left && !this.root.right)) {
+      return undefined;
+    }
+
+    let parent = null;
+    let current = this.root;
+
+    // 우측 자식 노드가 존재하는 가장 오른쪽 노드까지 이동
+    while (current.right) {
+      parent = current;
+      current = current.right;
+    }
+
+    // 만약 가장 오른쪽 노드가 왼쪽 자식을 가지고 있다면, 그것이 두 번째로 큰 값이 됩니다.
+    if (current.left) {
+      current = current.left;
+      while (current.right) {
+        current = current.right;
+      }
+      return current.value;
+    }
+
+    // 만약 가장 오른쪽 노드가 왼쪽 자식을 가지고 있지 않다면, 그것의 부모 노드가 두 번째로 큰 값이 됩니다.
+    return parent.value;
+  }
+}
+
+// 테스트
+var binarySearchTree = new BinarySearchTree();
+binarySearchTree.insert(15);
+binarySearchTree.insert(20);
+binarySearchTree.insert(10);
+binarySearchTree.insert(12);
+console.log(binarySearchTree.root.value); // 15
+console.log(binarySearchTree.root.right.value); // 20
+console.log(binarySearchTree.root.left.right.value); // 12
+
+var binarySearchTree2 = new BinarySearchTree();
+binarySearchTree2
+  .insert(15)
+  .insert(20)
+  .insert(10)
+  .insert(12);
+console.log(binarySearchTree2.root.value); // 15
+console.log(binarySearchTree2.root.right.value); // 20
+console.log(binarySearchTree2.root.left.right.value); // 12
