@@ -1,0 +1,61 @@
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BinarySearchTree {
+  constructor() {
+    this.root = null;
+  }
+
+  insert(value) {
+    const newNode = new Node(value);
+    if (!this.root) {
+      this.root = newNode;
+      return this;
+    }
+
+    let currentNode = this.root;
+    while (true) {
+      if (value < currentNode.value) {
+        if (!currentNode.left) {
+          currentNode.left = newNode;
+          return this;
+        }
+        currentNode = currentNode.left;
+      } else if (value > currentNode.value) {
+        if (!currentNode.right) {
+          currentNode.right = newNode;
+          return this;
+        }
+        currentNode = currentNode.right;
+      } else {
+        // 중복된 값인 경우, 무시하거나 다른 처리를 수행할 수 있음
+        return this;
+      }
+    }
+  }
+}
+
+// 테스트
+var binarySearchTree1 = new BinarySearchTree();
+binarySearchTree1.insert(15);
+binarySearchTree1.insert(20);
+binarySearchTree1.insert(10);
+binarySearchTree1.insert(12);
+console.log(binarySearchTree1.root.value); // 15
+console.log(binarySearchTree1.root.right.value); // 20
+console.log(binarySearchTree1.root.left.right.value); // 12
+
+var binarySearchTree2 = new BinarySearchTree();
+binarySearchTree2
+  .insert(15)
+  .insert(20)
+  .insert(10)
+  .insert(12);
+console.log(binarySearchTree2.root.value); // 15
+console.log(binarySearchTree2.root.right.value); // 20
+console.log(binarySearchTree2.root.left.right.value); // 12
