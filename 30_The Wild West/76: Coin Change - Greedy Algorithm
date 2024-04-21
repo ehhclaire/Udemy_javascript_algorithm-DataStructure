@@ -1,0 +1,26 @@
+function minCoinChange(coins, amount) {
+    coins.sort((a, b) => b - a); // 동전을 내림차순으로 정렬합니다.
+
+    const result = [];
+    let remainingAmount = amount;
+
+    for (let i = 0; i < coins.length; i++) {
+        const coin = coins[i];
+        if (coin <= remainingAmount) {
+            const count = Math.floor(remainingAmount / coin);
+            for (let j = 0; j < count; j++) {
+                result.push(coin);
+            }
+            remainingAmount -= count * coin;
+        }
+
+        if (remainingAmount === 0) break;
+    }
+
+    return remainingAmount === 0 ? result : [];
+}
+
+// 예제 테스트
+console.log(minCoinChange([1, 5, 10, 25], 11)); // [5, 5, 1]
+console.log(minCoinChange([1, 5, 10, 25], 40)); // [25, 10, 5]
+console.log(minCoinChange([1, 5, 10, 25], 11)); // [10, 1, 1, 1]
